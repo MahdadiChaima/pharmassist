@@ -85,13 +85,7 @@ class drawer extends StatelessWidget {
                             fontion(FrinoIcons.f_medicine, "Medicaments", ()=>Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => med())),),
                             fontion(FrinoIcons.f_male, "Patients", () => Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) =>pat()))),
                             fontion(FrinoIcons.f_lab, "Préparations", () => Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => prep()))),
-                           fontion(FrinoIcons.f_cog, "Paramétre", () =>Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => settings()))),
-
-                           fontion(FrinoIcons.f_question, "Aide", () => {}),
-                            fontion(FrinoIcons.f_share, "Partagez PharmAssist",
-                                () => {}),
-                            fontion(FrinoIcons.f_star_filled, "Rate nous",
-                                () => {}),
+                         
                           ],
                         ),
                       ))
