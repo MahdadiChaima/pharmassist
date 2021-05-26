@@ -1,29 +1,44 @@
 class Reliquat{
- double _reliquat;
-  int _id_preparation;
-  int _id_med;
- Reliquat(this._reliquat, this._id_preparation,this._id_med);
+  int _idReliq;
+ double _Reliquat;
+ String _nomMedReliq;
+ String _dateprep;
+ int _stabilitereliquat;
+ String _dateFormatter;
+ Reliquat(this._Reliquat, this._nomMedReliq,this._dateprep,this._stabilitereliquat,this._dateFormatter);
  Reliquat.map(dynamic obj) {
-    this._reliquat = obj['reliquat'];
-    this._id_preparation = obj['id_preparation'];
-    this._id_med = obj['id_med'];
+   this._dateFormatter=obj['dateFormatter'];
+   this._idReliq=obj['idReliq'];
+    this._Reliquat = obj['reliquat'];
+    this._nomMedReliq=obj['nomMedReliq'];
+    this._dateprep=obj['dateprep'];
+    this._stabilitereliquat=obj['stabilitereliquat'];
   }
-double get reliquat => _reliquat;
-int get id_preparation => _id_preparation;
-int get id_med => _id_med;
+double get reliquatR => _Reliquat;
+ String get nomMedReliq=>_nomMedReliq;
+ String get dateprep=>_dateprep;
+ int get stabilitereliquat=>_stabilitereliquat;
+ int get idReliq=>_idReliq;
+String get dateFormatter=>_dateFormatter;
 Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
-    map["reliquat"] = _reliquat;
-    if(id_preparation != null){
-      map["id_preparation"] = _id_preparation;}
-    if(id_med != null){
-      map["id_med"] = _id_med;
+    if(_idReliq != null){
+      map['idReliq']=_idReliq;
     }
+    map['reliquat'] = _Reliquat;
+    map['nomMedReliq']=_nomMedReliq;
+    map['dateprep']=_dateprep;
+    map['stabilitereliquat']=_stabilitereliquat;
+    map['dateFormatter']=_dateFormatter;
+
     return map;
   }
  Reliquat.fromMap(Map<String, dynamic> map){
-    this._reliquat = map["reliquat"];
-    this._id_preparation = map["id_preparation"];
-    this._id_med = map["id_med"];
+    this._Reliquat = map['reliquat'];
+    this._nomMedReliq = map['nomMedReliq'];
+    this._dateprep = map['dateprep'];
+    this._stabilitereliquat=map['stabilitereliquat'];
+    this._idReliq=map['idReliq'];
+    this._dateFormatter=map['dateFormatter'];
   }
 }

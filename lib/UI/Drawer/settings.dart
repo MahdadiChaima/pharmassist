@@ -7,21 +7,19 @@ import 'package:pharmassist/UI/preparation/prep.dart';
 import '../accueil.dart';
 import 'package:response/response.dart';
 import 'package:provider/provider.dart';
-import'package:pharmassist/UI/Drawer/theme.dart';
+import 'package:pharmassist/UI/Drawer/theme.dart';
 const blue = Color(0xff57D9F8);
 const bluefonce = Color(0xff5EAED1);
 class settings extends StatefulWidget {
   @override
   _settingsState createState() => _settingsState();
 }
-
 class _settingsState extends State<settings> {
   final response = ResponseUI.instance;
   bool isSwitched = false;
   @override
   Widget build(BuildContext context) {
     ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
-
     return SafeArea(
         child: Scaffold(
             body: Container(
@@ -52,7 +50,7 @@ class _settingsState extends State<settings> {
                         width: double.infinity,
                         //color: Colors.white,
                         decoration: BoxDecoration(
-                          color:Theme.of(context).canvasColor,
+                          color: Theme.of(context).canvasColor,
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(180),
                           ),
@@ -75,38 +73,67 @@ class _settingsState extends State<settings> {
                                       fontFamily: 'primus',
                                       fontWeight: FontWeight.w600)),
                             ),
-
-                            SizedBox(height: response.setHeight(20),),
-                         Container(padding: EdgeInsets.all(30),
-
-                         child:Column(crossAxisAlignment: CrossAxisAlignment.start,children:<Widget>[
-                           Row(mainAxisAlignment:MainAxisAlignment.spaceBetween,children: <Widget>[stylofText("Thème sombre", 21),Switch(
-                             value: isSwitched,
-                             onChanged: (value) {
-                               setState(() {
-                                 isSwitched = value;
-                                 isSwitched?
-                                 _themeChanger.setTheme(ThemeData(primaryColor: Colors.black,brightness:Brightness.dark,accentColor:Colors.black)):
-                                 _themeChanger.setTheme(ThemeData(primaryColor: Colors.white,brightness:Brightness.light,accentColor:Colors.white));
-
-                               });
-                             },
-                             activeTrackColor: blue,
-                             activeColor: bluefonce,
-                           ),
-
-                           ],),   SizedBox(height: response.setHeight(20),),
-                           GestureDetector(onTap:()=>{} ,child: stylofText("Définir un mot de passe", 21),),
-                           SizedBox(height: response.setHeight(20),),
-                           GestureDetector(onTap:()=>{} ,child: stylofText("Ajouter adresse e-mail", 21),),
-                         ])
-                           
-
-                        ),
-
-
-
-
+                            SizedBox(
+                              height: response.setHeight(20),
+                            ),
+                            Container(
+                                padding: EdgeInsets.all(30),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          stylofText("Thème sombre", 21),
+                                          Switch(
+                                            value: isSwitched,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                isSwitched = value;
+                                                isSwitched
+                                                    ? _themeChanger.setTheme(
+                                                        ThemeData(
+                                                            primaryColor:
+                                                                Colors.black,
+                                                            brightness:
+                                                                Brightness.dark,
+                                                            accentColor:
+                                                                Colors.black))
+                                                    : _themeChanger.setTheme(
+                                                        ThemeData(
+                                                            primaryColor:
+                                                                Colors.white,
+                                                            brightness:
+                                                                Brightness
+                                                                    .light,
+                                                            accentColor:
+                                                                Colors.white));
+                                              });
+                                            },
+                                            activeTrackColor: blue,
+                                            activeColor: bluefonce,
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: response.setHeight(20),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () => {},
+                                        child: stylofText(
+                                            "Définir un mot de passe", 21),
+                                      ),
+                                      SizedBox(
+                                        height: response.setHeight(20),
+                                      ),
+                                     /* GestureDetector(
+                                        onTap: () => {},
+                                        child: stylofText(
+                                            "Ajouter adresse e-mail", 21),
+                                      ),*/
+                                    ])),
                           ],
                         ),
                       ))
@@ -150,15 +177,18 @@ class fontion extends StatelessWidget {
 }
 
 class stylofText extends StatelessWidget {
-  stylofText(this.text,this.size);
+  stylofText(this.text, this.size);
   String text;
   double size;
 
   final response = ResponseUI.instance;
 
-
   @override
   Widget build(BuildContext context) {
-    return Text(text,style:TextStyle(fontSize: response.setFontSize(size),fontFamily: 'primus',fontWeight: FontWeight.w600));
+    return Text(text,
+        style: TextStyle(
+            fontSize: response.setFontSize(size),
+            fontFamily: 'primus',
+            fontWeight: FontWeight.w600));
   }
 }

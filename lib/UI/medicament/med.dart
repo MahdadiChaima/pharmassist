@@ -1,61 +1,40 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pharmassist/UI/SpecificWidget/Confirmation.dart';
-import 'package:pharmassist/UI/SpecificWidget/dateFormatter.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pharmassist/UI/medicament/ajoutmed1.dart';
 import 'package:pharmassist/UI/medicament/med_details.dart';
-import 'package:pharmassist/database/DatabaseHelper.dart';
 import 'package:pharmassist/model/medicament.dart';
 import '../Drawer/drawer.dart';
 import 'package:response/response.dart';
-import '../SpecificWidget/CirculerCheckBox.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import'../../main.dart';
+import '../../main.dart';
 const Color bluefonce = Color(0xff5EAED1);
-
-
-const Color gris= Color(0xffEBF1FA);const Color blue = Color(0xff57D9F8);
+const Color gris = Color(0xffEBF1FA);
+const Color blue = Color(0xff57D9F8);String nomMed;double qedispo;
 class med extends StatefulWidget {
   @override
   _medState createState() => _medState();
 }
-
 class _medState extends State<med> {
-  TextEditingController _textFieldController = new TextEditingController();
-
-
   final response = ResponseUI.instance;
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Chaima"),),
-        body: FutureBuilder(
-          future: db.getAllMed(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              meds = snapshot.data;
-              return _buildlistview();
-            }
-            return new CircularProgressIndicator();
-          },
-        ),
-        /* Container(
-          //height:double.infinity ,
+        body: Container(
+            //height:double.infinity ,
             width: double.infinity,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.centerLeft,
-                  colors: [bluefonce,blue]),
+                  colors: [Color(0xff5EAED1), Color(0xff57D9F8)]),
             ),
             child: Column(children: <Widget>[
               Container(
                 margin: EdgeInsets.only(right: 12, top: 12),
                 alignment: Alignment.topRight,
                 child: IconButton(
-                  onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => drawer())),
+                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => drawer())),
                   icon: Icon(
                     Icons.menu,
                     color: Colors.white,
@@ -63,207 +42,148 @@ class _medState extends State<med> {
                   ),
                 ),
               ),
-              Flexible( fit: FlexFit.loose,
-                  child: new Container(
-                    margin: EdgeInsets.only(top: 0, bottom: 0),
-                    padding: EdgeInsets.all(20),
-                    height: double.infinity,
-                    width: double.infinity,
-                    //color: Colors.white,
+              Container(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    alignment: Alignment.topCenter,
+                    width: response.setWidth(285),
                     decoration: BoxDecoration(
-                      color:Theme.of(context).canvasColor,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(180),
-                        topLeft: Radius.circular(0),
-                        //bottomLeft: Radius.circular(180)
-                      ),
+                      borderRadius:
+                          BorderRadius.only(topRight: Radius.circular(10)),
+                      color: Theme.of(context).canvasColor,
                     ),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          child: Text(
-                            "Médicaments",
-                            style: TextStyle(
-                                fontSize: response.setFontSize(28),
-                                fontFamily: 'primus',
-                                fontWeight: FontWeight.w700),
-                          ),
-                        ),
-
-                        //TODO:Recherche
-                        SizedBox(
-                          height: response.setHeight(60),
-                        ),
-
-                      /* Card(
-                          color:  gris,elevation: 15.0,shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(28.0),
-                        ),
-                          child:Container(padding: EdgeInsets.only(left: 30,right: 20,top: 7,bottom:7),child:Row(mainAxisAlignment:MainAxisAlignment.spaceBetween,children: <Widget>[
-                            stylofText("text", 25),
-                            IconButton(icon: Icon(Icons.delete,color: bluefonce,),onPressed: ()=>{},),
-
-                          ])),
-
-
-                        ),*/
-
-                Flexible(
-                  child: ListView.builder(
-                      itemCount: _itemsList.length,
-
-                      itemBuilder: (_, int index) {
-                        return   Card(color: gris,elevation: 15.0,shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(28.0),
-                        ),
-                          child:Container(padding: EdgeInsets.only(left: 30,right: 20,top: 7,bottom:7),child:Row(mainAxisAlignment:MainAxisAlignment.spaceBetween,children: <Widget>[
-                            StylofText("pation1", 25),
-                            IconButton(icon: Icon(Icons.delete,color: bluefonce,),onPressed: ()=>{},),
-
-                          ])),
-
-                        );
-                      }),),
-                        Divider(
-                          height: 1.0,
-                        ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                      ],
-                    ),
+                    child: StylofText("La list  des medicaments :", 22,FontWeight.w500),
                   )),
+              Flexible(
+                  fit: FlexFit.loose,
+                  child: new Container(
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            ])) ,*/
+                      //color: Colors.white,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).canvasColor,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(80),
+                          topLeft: Radius.circular(0),
+                          //bottomLeft: Radius.circular(180)
+                        ),
+                      ),
+                      child: FutureBuilder(
+                        future: db.getAllMed(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            meds = snapshot.data;
+                            return _buildlistview();
+                          }
+                          return new CircularProgressIndicator();
+                        },
+                      )))
+            ])),
         floatingActionButton: FloatingActionButton(
-        backgroundColor:  Color(0xff01a99a),
-    onPressed: (){Navigator.push(context, MaterialPageRoute(
-    builder:(context)=>ajoutmed1()
-    ));
-    },
-    child: Icon(Icons.add),
-    ));
+          backgroundColor: bluefonce,
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => ajoutmed1()));
+          },
+          child: Icon(Icons.add),
+        ));
   }
-
 
   ListView _buildlistview() {
     return ListView.builder(
-        itemCount: meds == null ? 0 : meds.length,
-        itemBuilder: (BuildContext context, int position) {
-          return Card(
-              color: Color(0xff00d5b7),
-              elevation: 2.0,
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: AssetImage('assets/poso.jpg'),
-                  radius: 50.0,
-                ),
-                title: Text("Medicament :${Medicament
-                    .fromMap(meds[position])
-                    .medicament}"),
-                subtitle: Text("Id :${Medicament
-                    .fromMap(meds[position])
-                    .idMed}"),
-                trailing: GestureDetector(
-                    child: Icon(Icons.delete, color: Color(0xffF2F2F2),
-                    ),
-
-                    onTap: () async {
-                      selected_id = Medicament
-                          .fromMap(meds[position])
-                          .idMed;
-                      Alert(
-                          context: context,
-                          type: AlertType.warning,
-                          title: "confirmer",
-                          desc: "est ce que vous etes sur de supprimer ce medicament !",
-                          buttons: [
-                            DialogButton(
-                                color: Color(0xff01a99a),
-                                child: Text("non"),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                }
-                            ),
-                            DialogButton(
-                              color: Color(0xff01a99a),
-                              child: Text("oui"),
+      itemCount: meds == null ? 0 : meds.length,
+      itemBuilder: (BuildContext context, int position) {
+        nomMed= Medicament.fromMap(meds[position]).medicament;
+        qedispo= Medicament.fromMap(meds[position]).qetDispo1;
+        return Card(
+            color: gris,
+            elevation: 22.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(28.0),
+            ),
+            child: ListTile(
+              title: StylofText(
+                  "Medicament :${Medicament.fromMap(meds[position]).medicament}",
+                  18,
+                  FontWeight.w600,
+                  Colors.black),
+              subtitle: Text("Laboratoire :${Medicament.fromMap(meds[position]).labo}"),
+              trailing: GestureDetector(
+                  child: Icon(
+                    Icons.delete,
+                    color: Colors.black,
+                  ),
+                  onTap: () async {
+                    selected_id_Med = Medicament.fromMap(meds[position]).idMed;
+                    Alert(
+                        context: context,
+                        image: Image.asset(
+                          "assests/images/logoblue.png",
+                          height: response.setHeight(110),
+                          width: response.setWidth(110),
+                        ),
+                        title: "confirmer",
+                        desc:
+                            "est ce que vous etes sur de supprimer ce medicament !",
+                        buttons: [
+                          DialogButton(
+                            color: blue,
+                            child: Text("oui"),
+                            onPressed: () {
+                              setState(() {
+                                db.deleteMed(selected_id_Med);
+                                meds.removeAt(position);
+                              });
+                              Navigator.pop(context);
+                            },
+                          ),
+                          DialogButton(
+                              color: Colors.black26,
+                              child: Text("non"),
                               onPressed: () {
-                                db.deleteMed(selected_id);
-                                setState(() {
-                                  meds.removeAt(position);
-                                });
                                 Navigator.pop(context);
-                              },
-                            )
-                          ]
-                      ).show();
-                    }
-                ),
-                onTap: () async {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => ajoutmed1(),
-
-                  ));
-                  med_det = await db.getMed(selected_id);
-                },
-              ));
-        }
+                              }),
+                        ]).show();
+                  }),
+              onTap: () async {
+                if( Medicament.fromMap(meds[position]).qetDispo1<3){
+                  notification();
+                }
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => med_details(),
+                    ));
+                selected_id_Med = Medicament.fromMap(meds[position]).idMed;
+                med_det = await db.getMed(selected_id_Med);
+              },
+            ));
+      },
     );
   }
+  void notification() async {
+    var scheduledNotificationDateTime=DateTime.now().add(Duration(seconds: 1));
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'alarm_notif',
+      'alarm_notif',
+      'Channel for Alarm notification',
+      icon: 'logo',
+      //sound: RawResourceAndroidNotificationSound('a_long_cold_sting'),
+      largeIcon: DrawableResourceAndroidBitmap('logo'),
+    );
 
-
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails(
+        //sound: 'a_long_cold_sting.wav',
+        presentAlert: true,
+        presentBadge: true,
+      //  presentSound: true
+    );
+    var platformChannelSpecifics = NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.schedule(
+        0,
+        'La quantité de $nomMed est insuffisante',
+        'il ne reste plus que $qedispo',
+        scheduledNotificationDateTime,
+        platformChannelSpecifics);
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

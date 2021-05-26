@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pharmassist/UI/SpecificWidget/CirculerCheckBox.dart';
+import 'package:pharmassist/UI/accueil.dart';
 import 'package:pharmassist/UI/preparation/prep_details.dart';
+import 'package:pharmassist/main.dart';
+import 'package:pharmassist/model/preparation.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:pharmassist/UI/constant.dart';
-
 import '../Drawer/drawer.dart';
 import 'package:response/response.dart';
 
 const Color gris = Color(0xffEBF1FA);
 const Color blue = Color(0xff57D9F8);
+const Color bluefonce = Color(0xff5EAED1);
 
 class prep extends StatefulWidget {
   @override
@@ -19,6 +21,7 @@ class _prepState extends State<prep> {
   final response = ResponseUI.instance;
 
   bool checkboxvalue = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,20 +30,10 @@ class _prepState extends State<prep> {
             width: double.infinity,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                  begin: Alignment.centerLeft, colors: [bluefonce, blue]),
+                  begin: Alignment.centerLeft,
+                  colors: [Color(0xff5EAED1), Color(0xff57D9F8)]),
             ),
             child: Column(children: <Widget>[
-              Card(color: gris,elevation: 15.0,shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(28.0),
-              ),
-                child:Container(padding: EdgeInsets.only(left: 30,right: 20,top: 7,bottom:7),child:Row(mainAxisAlignment:MainAxisAlignment.spaceBetween,children: <Widget>[
-                  stylofText("text", 25),
-                  IconButton(icon: Icon(Icons.delete,color: bluefonce,),onPressed: ()=>{},),
-
-                ])),
-              )
-
-              /*
               Container(
                 margin: EdgeInsets.only(right: 12, top: 12),
                 alignment: Alignment.topRight,
@@ -54,109 +47,119 @@ class _prepState extends State<prep> {
                   ),
                 ),
               ),
+              Container(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    alignment: Alignment.topCenter,
+                    width: response.setWidth(285),
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          BorderRadius.only(topRight: Radius.circular(10)),
+                      color: Theme.of(context).canvasColor,
+                    ),
+                    child: StylofText("La liste  des preparation :", 22),
+                  )),
               Flexible(
                   fit: FlexFit.loose,
                   child: new Container(
-                    margin: EdgeInsets.only(top: 0, bottom: 0),
-                    padding: EdgeInsets.all(20),
-                    height: double.infinity,
-                    width: double.infinity,
-                    //color: Colors.white,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).canvasColor,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(180),
-                        topLeft: Radius.circular(0),
-                        //bottomLeft: Radius.circular(180)
+
+                      //color: Colors.white,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).canvasColor,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(80),
+                          topLeft: Radius.circular(0),
+                          //bottomLeft: Radius.circular(180)
+                        ),
                       ),
-                    ),
-                    child: ListView(
-                      children: <Widget>[
-                        Container(child: StylofText("Préparations", 28)),
-                        //TODO:Recherche
-                        SizedBox(
-                          height: response.setHeight(60),
-                        ),
+                      child: FutureBuilder(
+                        future: db.getAllPreparation(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            preps = snapshot.data;
+                            return _buildlistview();
+                          }
+                          return new CircularProgressIndicator();
+                        },
+                      )))
+            ])),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: bluefonce,
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => accueil()));
+          },
+          child: Icon(Icons.add),
+        ));
+  }
 
-                        GestureDetector(
-                            onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        prep_details())),
-                            child: Container(
-                                height: response.setHeight(60),
-                                width: response.setWidth(200),
-                                decoration: BoxDecoration(
-                                    color: gris,
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      SizedBox(
-                                        width: response.setWidth(10),
-                                      ),
-                                      CirculerCheckBox(),
-                                      SizedBox(
-                                        width: response.setWidth(10),
-                                      ),
-                                      StylofText("prep1", 23),
-                                    ]))),
-                        SizedBox(
-                          height: response.setHeight(70),
+  ListView _buildlistview() {
+    return ListView.builder(
+      itemCount: preps == null ? 0 : preps.length,
+      itemBuilder: (BuildContext context, int position) {
+        return Card(
+            color: gris,
+            elevation: 22.0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(28.0),
+            ),
+            child: ListTile(
+              title: StylofText(
+                  "Patient  :${Preparation.fromMap(preps[position]).nomPationPrepare} ",
+                  17,
+                  Colors.black),
+              subtitle: Text(
+                  "medicament :${Preparation.fromMap(preps[position]).nomMedPrepare}"),
+              trailing: GestureDetector(
+                  child: Icon(
+                    Icons.delete,
+                    color: Colors.black,
+                  ),
+                  onTap: () async {
+                    selected_id_Preparation =
+                        Preparation.fromMap(preps[position]).id_preparation;
+                    Alert(
+                        context: context,
+                        image: Image.asset(
+                          "assests/images/logoblue.png",
+                          height: response.setHeight(110),
+                          width: response.setWidth(110),
                         ),
-
-                        SizedBox(
-                          height: response.setHeight(70),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            GestureDetector(
-                                onTap: () => {
-                                      Alert(
-                                        context: context,
-                                        image: Image.asset(
-                                          "assests/images/logoblue.png",
-                                          height: response.setHeight(110),
-                                          width: response.setWidth(110),
-                                        ),
-                                        title: "Voulez vous sur supprimer?",
-                                        //desc: ",
-                                        buttons: [
-                                          DialogButton(
-                                            child: Text(
-                                              "Oui",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20),
-                                            ),
-                                            onPressed: () => {
-                                              //TODO: supprimer preparation
-                                            },
-                                            color: Color(0xff57D9F8),
-                                          ),
-                                          DialogButton(
-                                            child: Text(
-                                              "Non",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20),
-                                            ),
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            color: Colors.black26,
-                                          )
-                                        ],
-                                      ).show()
-                                    },
-                                child: Container(
-                                  child: StylofText("Supprimer", 26, bluefonce),
-                                )),
-                          ],
-                        ),
-                      ],
-                    ),
-                  )),
-        */    ])));
+                        title: "est ce que vous etes sur de supprimer ce preparation!",
+                       // desc:
+                         //   "",
+                        buttons: [
+                          DialogButton(
+                            color: blue,
+                            child:Text("Oui",style: TextStyle(color:Colors.white,fontSize: response.setFontSize(21)),),
+                            onPressed: () {
+                              setState(() {
+                                db.deletePreparation(selected_id_Preparation);
+                                preps.removeAt(position);
+                              });
+                              Navigator.pop(context);
+                            },
+                          ),
+                          DialogButton(
+                              color: Colors.black26,
+                              child: Text("non",style: TextStyle(color:Colors.white,fontSize: response.setFontSize(21)),),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              })
+                        ]).show();
+                  }),
+              onTap: () async {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => prep_details(),
+                    ));
+                selected_id_Preparation =
+                    Preparation.fromMap(preps[position]).id_preparation;
+                prep_det = await db.getPreparation(selected_id_Preparation);
+              },
+            ));
+      },
+    );
   }
 }

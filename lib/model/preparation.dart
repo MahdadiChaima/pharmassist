@@ -1,53 +1,69 @@
+
+//final String _datenowprep='datenowprep';
+//final String _stabiliteTemp='stabiliteTemp'; //final String _reliquat='reliquat';
 class Preparation{
-  int _id_med;
-  int _id_pation;
-  int _id;
-  String _date;
-  int _nbrFlacon;
-  int _pocheUtilise;
-  double _reliquat;
-  Preparation(this._date, this._nbrFlacon,this._pocheUtilise,this._reliquat,this._id_med,this._id_pation);
+  int _id_preparation;
+  String _date,_nomPationPrepare,_nomMedPrepare;
+int _nbrFlacon,_prisTotal,_poche;
+     double _volumeCalculer,_posologie,_dose;
+
+  Preparation(this._nomPationPrepare,this._nomMedPrepare,
+      this._date,this._posologie,this._volumeCalculer,this._nbrFlacon,this._poche,this._prisTotal,this._dose);
   Preparation.map(dynamic obj) {
-    this._id = obj['id'];
+
+    this._dose=obj['dose'];
+
+
+    this._nomPationPrepare=obj['nomPationPrepare'];
+    this._nomMedPrepare=obj['nomMedPrepare'];
+
+    this._id_preparation = obj['idPreparation'];
     this._date= obj['date'];
+    this._posologie=obj['posologie'];
     this._nbrFlacon=obj['nbrFlacon'] ;
-    this. _pocheUtilise=obj['pocheUtilise'];
-    this. _reliquat=obj['reliquat'];
-    this._id_med=obj['id_med'];
-    this._id_pation=obj['id_pation'];
+    this. _poche=obj['poche'];
+
+    this._prisTotal=obj['prisTotal'];
+    this._volumeCalculer=obj['volumeCalculer'];
   }
-  int get id => _id;
-  String get date=>_date;
+  double get dose=>_dose;
+  int get id_preparation => _id_preparation;
+  String get nomMedPrepare=>_nomMedPrepare;
+  String get nomPationPrepare=>_nomPationPrepare;
   int get nbrFlacon=>_nbrFlacon;
-  int get pocheUtilise=>_pocheUtilise;
-  double get reliquat=>_reliquat;
-  int get id_med=>_id_med;
-  int get id_pation=>_id_pation;
+  String get date=>_date;
+  int get poche=>_poche;
+  int get prisTotal=>_prisTotal;
+ double get volumeCalculer=>_volumeCalculer;
+double get posologie=>_posologie;
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
-  if (id != null) {
-  map['id'] = _id;
+    if (_id_preparation != null) {
+
+      map['idPreparation'] = _id_preparation;
+    }
+    map['dose']=_dose;
+    map['nomMedPrepare']=_nomMedPrepare;
+    map['nomPationPrepare']=_nomPationPrepare;
+    map['date']= _date;
+    map['posologie']=_posologie;
+    map['nbrFlacon']= _nbrFlacon;
+    map['poche']=  _poche;
+    map['volumeCalculer']=_volumeCalculer;
+    map['prisTotal']=_prisTotal;
+    return map;
   }
-  if(id_med!=null){
-    map['id_med']=_id_med;
-  }
-  if(id_pation!=null){
-    map['id_pation']=_id_pation;
-  }
-  map['date']= _date;
-  map['nbrFlacon']= _nbrFlacon;
-  map['pocheUtilise']=  _pocheUtilise;
-  map['reliquat']=  _reliquat;
-  return map;
-  }
-Preparation.fromMap(Map<String, dynamic> map) {
-  this._id = map['id'];
- this._date= map['date'];
-  this._nbrFlacon=map['nbrFlacon'] ;
-  this. _pocheUtilise=map['pocheUtilise'];
-  this. _reliquat=map['reliquat'];
-  this._id_med=map["id_med"];
-  this._id_pation=map['id_pation'];
+  Preparation.fromMap(Map<String, dynamic> map) {
+    this._id_preparation = map['idPreparation'];
+    this._date= map['date'];
+    this._nbrFlacon=map['nbrFlacon'] ;
+    this._posologie=map['posologie'];
+    this. _poche=map['poche'];
+    this._volumeCalculer=map['volumeCalculer'];
+    this._prisTotal=map['prisTotal'];
+    this._nomPationPrepare=map['nomPationPrepare'];
+    this._nomMedPrepare=map['nomMedPrepare'];
+    this._dose=map['dose'];
 
   }
 

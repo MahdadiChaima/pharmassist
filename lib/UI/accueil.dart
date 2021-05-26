@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:pharmassist/UI/constant.dart';
+import 'package:pharmassist/UI/preparation/Statistiques.dart';
+import 'package:pharmassist/UI/preparation/comptAncienPat.dart';
 import 'package:pharmassist/UI/preparation/etatsdesreliquats.dart';
 import 'Drawer/drawer.dart';
-import 'preparation/compt1.dart';
 import 'package:response/response.dart';
 const Color blue = Color(0xff57D9F8);
 const Color bluefonce = Color(0xff5EAED1);
-
-
 class accueil extends StatefulWidget {
   @override
   _accueilState createState() => _accueilState();
 }
-
 class _accueilState extends State<accueil> {
   final response = ResponseUI.instance;
 
@@ -59,7 +57,6 @@ class _accueilState extends State<accueil> {
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(180),
                             topLeft: Radius.circular(0),
-                            //bottomLeft: Radius.circular(180)
                           ),
                         ),
                         child: ListView(
@@ -77,31 +74,20 @@ class _accueilState extends State<accueil> {
                               height: response.setHeight(60),
                             ),
                             stylofBottom( "assests/images/preparation.png", () =>
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            compt1())),"Nouvelle préparation"),
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => comptAncienPat())),"Nouvelle préparation"),
                             SizedBox(
                               height: response.setHeight(20),
                             ),
 
-                            stylofBottom( "assests/images/reliquat.png", () =>
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            etatsdesreliquats())),"Etats des reliquats"),
+                            stylofBottom( "assests/images/reliquat.png", () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => etatsdesreliquats())),"Etats des reliquats"),
                             SizedBox(
                               height: response.setHeight(20),
                             ),
-
                             stylofBottom( "assests/images/travail.png", () =>
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                         builder: (BuildContext context) =>
-                                            compt1())),"Fin de travail"),
-
-
-
+                                            Statistiques())),"Statistiques"),
                           ],
                         ),
                       )),
@@ -124,30 +110,21 @@ class _accueilState extends State<accueil> {
 
     child: Container(
       height: response.setHeight(130),// response.setHeight(300),
-      width: double.infinity,
+      width: response.setWidth(200),
       decoration: BoxDecoration(   borderRadius: BorderRadius.only(
           topRight: Radius.circular(40),
           topLeft: Radius.circular(40),
           bottomRight: Radius.circular(40),
-
           bottomLeft: Radius.circular(40)
       ),
           image: DecorationImage(
             fit: BoxFit.fill,
             image:
-            AssetImage(
-             image,
-
-            ),
+            AssetImage(image,),
           )),
       child:Center(child:StylofText(text,34,Colors.white)),
-    ),)
-
-
-
-    ;
-  }
-  }
+    ),);
+  }}
 
 
 

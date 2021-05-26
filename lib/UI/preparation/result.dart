@@ -1,24 +1,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pharmassist/UI/Specific/dateFormatter.dart';
 import '../Drawer/drawer.dart';
 import 'package:response/response.dart';
-import'comptNouveauPat.dart';
-import '../medicament/ajoutmed1.dart';
 const Color bluefonce = Color(0xff5EAED1);
-
-
-const Color gris= Color(0xffEBF1FA);const Color blue = Color(0xff57D9F8);
-
+const Color gris = Color(0xffEBF1FA);
+const Color blue = Color(0xff57D9F8);
 class result extends StatefulWidget {
-  double dose,volume,reliq;
-  int poche,nbrflacon,pris;
-  result({Key key,this.dose,this.volume,this.poche,this.nbrflacon,this.reliq,this.pris}):super(key:key);
+  String nomPation, nomMed;
+  double dose, volume, reliq;
+  int poche, nbrflacon, pris;
+  result(
+      {Key key,
+      this.nomPation,
+      this.nomMed,
+      this.dose,
+      this.volume,
+      this.poche,
+      this.nbrflacon,
+      this.reliq,
+      this.pris})
+      : super(key: key);
   @override
   _resultState createState() => _resultState();
 }
 
 class _resultState extends State<result> {
-
+  String date = dateFormatter();
   final response = ResponseUI.instance;
 
   @override
@@ -26,22 +34,20 @@ class _resultState extends State<result> {
     return SafeArea(
         child: Scaffold(
             body: Container(
-              //height:double.infinity ,
+                //height:double.infinity ,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      colors: [bluefonce,blue]),
+                      begin: Alignment.centerLeft, colors: [bluefonce, blue]),
                 ),
                 child: Column(children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(right: 12, top: 12),
                     alignment: Alignment.topRight,
                     child: IconButton(
-                      onPressed: () =>
-                          Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) => drawer())),
+                      onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => drawer())),
                       icon: Icon(
                         Icons.menu,
                         color: Colors.white,
@@ -58,7 +64,7 @@ class _resultState extends State<result> {
                         width: double.infinity,
                         //color: Colors.white,
                         decoration: BoxDecoration(
-                          color:Theme.of(context).canvasColor,
+                          color: Theme.of(context).canvasColor,
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(180),
                             topLeft: Radius.circular(0),
@@ -69,7 +75,7 @@ class _resultState extends State<result> {
                           children: <Widget>[
                             Container(
                               child: Text(
-                                "Espace travail",
+                                "Résultats",
                                 style: TextStyle(
                                     fontSize: response.setFontSize(30),
                                     fontFamily: 'primus',
@@ -77,92 +83,82 @@ class _resultState extends State<result> {
                               ),
                             ),
                             SizedBox(
-                              height: response.setHeight(80),
+                              height: response.setHeight(30),
                             ),
-
-
-                                Text("Résultats",textAlign: TextAlign.left,style: TextStyle( fontSize: response.setFontSize(25),
-                                    fontFamily: 'primus',
-                                    fontWeight: FontWeight.w600),),
-                                SizedBox(height: response.setHeight(40),),
-                                rowText("Dose","${widget.dose}mg"),
-                                SizedBox(height: response.setHeight(20),),
-
-                                rowText("Volume","${widget.volume}ml"),
-                                SizedBox(height: response.setHeight(20),),
-                                rowText("Poche recommandée","${widget.poche}ml"),
-                                SizedBox(height: response.setHeight(20),),
-                                rowText("Nombre des flacons","${widget.nbrflacon}"),
-                                SizedBox(height: response.setHeight(20),),
-
-                                rowText("Reliquat","${widget.reliq}ml"),
-                            SizedBox(height: response.setHeight(20),),
-
-                            rowText("Pris","${widget.pris}DA"),
-
-
-
-                            SizedBox(height: response.setHeight(105),),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-
-                                FloatingActionButton(backgroundColor: blue,
-                                  onPressed: () =>Navigator.pop(context),
-                                  tooltip: 'Calculer',
-                                  child: Icon(Icons.arrow_back,color:Colors.white),
-                                ),
-                                Container(alignment: Alignment.bottomCenter,
-                                  width: response.setWidth(160),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    gradient: LinearGradient(
-                                      //begin: Alignment.centerLeft,
-                                        colors: [
-                                          bluefonce,
-                                          blue
-                                        ]),
-                                  ),
-                                  child: FlatButton(onPressed: () =>Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(builder: (BuildContext context) => compt2())),
-                                    child: Text("Nouveau", style: TextStyle(
-                                        fontSize: response.setFontSize(24),
-                                        fontFamily: 'primus',
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w800),),),
-
-
-                                ),
-
-                              ],
+                            Text(
+                              date,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontSize: response.setFontSize(25),
+                                  fontFamily: 'primus',
+                                  fontWeight: FontWeight.w600),
                             ),
-
-
+                            SizedBox(
+                              height: response.setHeight(30),
+                            ),
+                            rowText("Nom Paction", "${widget.nomPation}"),
+                            SizedBox(
+                              height: response.setHeight(20),
+                            ),
+                            rowText("Nom Medicament", "${widget.nomMed}"),
+                            SizedBox(
+                              height: response.setHeight(20),
+                            ),
+                            rowText("Dose", "${widget.dose}mg"),
+                            SizedBox(
+                              height: response.setHeight(20),
+                            ),
+                            rowText("Volume", "${widget.volume}ml"),
+                            SizedBox(
+                              height: response.setHeight(20),
+                            ),
+                            rowText("Poche recommandée", "${widget.poche}ml"),
+                            SizedBox(
+                              height: response.setHeight(20),
+                            ),
+                            rowText(
+                                "Nombre des flacons", "${widget.nbrflacon}"),
+                            SizedBox(
+                              height: response.setHeight(20),
+                            ),
+                            rowText("Reliquat", "${widget.reliq}ml"),
+                            SizedBox(
+                              height: response.setHeight(20),
+                            ),
+                            rowText("Pris", "${widget.pris}DA"),
                           ],
                         ),
                       )),
                 ]))));
   }
-
-
 }
 
 class rowText extends StatelessWidget {
-
-
   final response = ResponseUI.instance;
   String text1;
   String text2;
-  rowText(this.text1,this.text2);
+  rowText(this.text1, this.text2);
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[Text( text1,style: TextStyle(
-            fontSize: response.setFontSize(22),
-            fontFamily: 'primus',
-            fontWeight: FontWeight.w400)), Text( text2,style: TextStyle(
-            fontSize: response.setFontSize(22),
-            fontFamily: 'primus',
-            fontWeight: FontWeight.w600)),]);
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: Text(text1,
+                style: TextStyle(
+                    fontSize: response.setFontSize(22),
+                    fontFamily: 'primus',
+                    fontWeight: FontWeight.w400)),
+          ),
+          Expanded(
+            flex: 1,
+            child: Text(text2,
+                style: TextStyle(
+                    fontSize: response.setFontSize(22),
+                    fontFamily: 'primus',
+                    fontWeight: FontWeight.w600)),
+          ),
+        ]);
   }
 }

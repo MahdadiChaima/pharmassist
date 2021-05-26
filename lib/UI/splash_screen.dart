@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pharmassist/UI/accueil.dart';
 import 'dart:async';
-import 'signIn.dart';
 import 'package:response/response.dart';
 const Color blue = Color(0xff57D9F8);
 const Color bluefonce = Color(0xff5EAED1);
@@ -18,13 +18,13 @@ class _splash_screenState extends State<splash_screen> {
     _mockCheckForSession().then((status) {
       if (status) {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (BuildContext context) => signIn()));
+            MaterialPageRoute(builder: (BuildContext context) => accueil()));
       }
     });
   }
 
   Future<bool> _mockCheckForSession() async {
-    await Future.delayed(Duration(milliseconds: 6000), () {});
+    await Future.delayed(Duration(milliseconds: 6500), () {});
 
     return true;
   }
